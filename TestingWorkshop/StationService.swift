@@ -11,7 +11,8 @@ struct Station: Equatable, Hashable, Identifiable {
     let platforms: [String]
 }
 
-struct Departure: Codable, Equatable {
+struct Departure: Codable, Equatable, Identifiable {
+    let id: Int
     let line: String
     let platform: String
     let etd: Date
@@ -32,42 +33,42 @@ struct DefaultStationService: StationService {
     private var stationMap: [Station: [Departure]] {
         [
             Station(name: "Colma", platforms: ["1", "2"]): [
-                Departure(line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 300)),
-                Departure(line: "Red", platform: "2", etd: Date(timeIntervalSinceNow: 600)),
-                Departure(line: "Yellow", platform: "1", etd: Date(timeIntervalSinceNow: 900)),
-                Departure(line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 1200)),
+                Departure(id: 1, line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 300)),
+                Departure(id: 2, line: "Red", platform: "2", etd: Date(timeIntervalSinceNow: 600)),
+                Departure(id: 3, line: "Yellow", platform: "1", etd: Date(timeIntervalSinceNow: 900)),
+                Departure(id: 4, line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 1200)),
             ],
             Station(name: "Powell", platforms: ["1", "2"]): [
-                Departure(line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 60)),
-                Departure(line: "Red", platform: "2", etd: Date(timeIntervalSinceNow: 120)),
-                Departure(line: "Yellow", platform: "1", etd: Date(timeIntervalSinceNow: 240)),
-                Departure(line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 840)),
-                Departure(line: "Blue", platform: "1", etd: Date(timeIntervalSinceNow: 600)),
-                Departure(line: "Blue", platform: "2", etd: Date(timeIntervalSinceNow: 780)),
-                Departure(line: "Green", platform: "1", etd: Date(timeIntervalSinceNow: 900)),
-                Departure(line: "Green", platform: "2", etd: Date(timeIntervalSinceNow: 540)),
+                Departure(id: 1, line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 60)),
+                Departure(id: 2, line: "Red", platform: "2", etd: Date(timeIntervalSinceNow: 120)),
+                Departure(id: 3, line: "Yellow", platform: "1", etd: Date(timeIntervalSinceNow: 240)),
+                Departure(id: 4, line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 840)),
+                Departure(id: 5, line: "Blue", platform: "1", etd: Date(timeIntervalSinceNow: 600)),
+                Departure(id: 6, line: "Blue", platform: "2", etd: Date(timeIntervalSinceNow: 780)),
+                Departure(id: 7, line: "Green", platform: "1", etd: Date(timeIntervalSinceNow: 900)),
+                Departure(id: 8, line: "Green", platform: "2", etd: Date(timeIntervalSinceNow: 540)),
             ],
             Station(name: "MacArthur", platforms: ["1", "2", "3", "4"]): [
-                Departure(line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 180)),
-                Departure(line: "Red", platform: "3", etd: Date(timeIntervalSinceNow: 600)),
-                Departure(line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 480)),
-                Departure(line: "Yellow", platform: "4", etd: Date(timeIntervalSinceNow: 1200)),
-                Departure(line: "Orange", platform: "1", etd: Date(timeIntervalSinceNow: 300)),
-                Departure(line: "Orange", platform: "3", etd: Date(timeIntervalSinceNow: 900)),
+                Departure(id: 1, line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 180)),
+                Departure(id: 2, line: "Red", platform: "3", etd: Date(timeIntervalSinceNow: 600)),
+                Departure(id: 3, line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 480)),
+                Departure(id: 4, line: "Yellow", platform: "4", etd: Date(timeIntervalSinceNow: 1200)),
+                Departure(id: 5, line: "Orange", platform: "1", etd: Date(timeIntervalSinceNow: 300)),
+                Departure(id: 6, line: "Orange", platform: "3", etd: Date(timeIntervalSinceNow: 900)),
             ],
             Station(name: "12th Street", platforms: ["1", "2", "3"]): [
-                Departure(line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 180)),
-                Departure(line: "Red", platform: "3", etd: Date(timeIntervalSinceNow: 600)),
-                Departure(line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 480)),
-                Departure(line: "Yellow", platform: "3", etd: Date(timeIntervalSinceNow: 1200)),
-                Departure(line: "Orange", platform: "1", etd: Date(timeIntervalSinceNow: 60)),
-                Departure(line: "Orange", platform: "3", etd: Date(timeIntervalSinceNow: 420)),
+                Departure(id: 1, line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 180)),
+                Departure(id: 2, line: "Red", platform: "3", etd: Date(timeIntervalSinceNow: 600)),
+                Departure(id: 3, line: "Yellow", platform: "2", etd: Date(timeIntervalSinceNow: 480)),
+                Departure(id: 4, line: "Yellow", platform: "3", etd: Date(timeIntervalSinceNow: 1200)),
+                Departure(id: 5, line: "Orange", platform: "1", etd: Date(timeIntervalSinceNow: 60)),
+                Departure(id: 6, line: "Orange", platform: "3", etd: Date(timeIntervalSinceNow: 420)),
             ],
             Station(name: "Ashby", platforms: ["1", "2"]): [
-                Departure(line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 180)),
-                Departure(line: "Red", platform: "3", etd: Date(timeIntervalSinceNow: 600)),
-                Departure(line: "Orange", platform: "1", etd: Date(timeIntervalSinceNow: 120)),
-                Departure(line: "Orange", platform: "3", etd: Date(timeIntervalSinceNow: 360)),
+                Departure(id: 1, line: "Red", platform: "1", etd: Date(timeIntervalSinceNow: 180)),
+                Departure(id: 2, line: "Red", platform: "3", etd: Date(timeIntervalSinceNow: 600)),
+                Departure(id: 3, line: "Orange", platform: "1", etd: Date(timeIntervalSinceNow: 120)),
+                Departure(id: 4, line: "Orange", platform: "3", etd: Date(timeIntervalSinceNow: 360)),
             ],
         ]
     }

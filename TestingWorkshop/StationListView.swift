@@ -6,17 +6,17 @@
 import Observation
 import SwiftUI
 
+enum CoordinatorState<T> {
+    case loading
+    case loaded(T)
+    case error
+}
+
 @MainActor
 @Observable
 final class StationListCoordinator {
-    enum State {
-        case loading
-        case loaded([Station])
-        case error
-    }
-
     let stationService: StationService
-    private(set) var state: State = .loading
+    private(set) var state: CoordinatorState<[Station]> = .loading
 
     init(stationService: StationService) {
         self.stationService = stationService
