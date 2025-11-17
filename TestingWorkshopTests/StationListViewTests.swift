@@ -57,6 +57,25 @@ struct StationListViewTests {
             _ = try inspectedView.find(text: "Station 1")
             _ = try inspectedView.find(text: "Station 2")
         }
+
+        @Test func `tapping on a station opens the detail view`() async throws {
+            let stationService = FakeStationService()
+            stationService.station_spy.stub(success: [
+                Station(name: "Station 1", platforms: ["a", "b"]),
+                Station(name: "Station 2", platforms: ["a", "b"])
+            ])
+
+            let inspectedView = try NavigationStack { StationListView(coordinator: StationListCoordinator(stationService: stationService)) }.inspect()
+
+
+            try await inspectedView.find(StationListView.self).zStack().callTask()
+
+            let link = try inspectedView.find(navigationLink: "Station 1")
+
+            // This would throw if the link didn't host the StationDetailView
+            let detailView = try link.view(StationDetailView.self)
+            #expect(try detailView.actualView().coordinator.station == Station(name: "Station 1", platforms: ["a", "b"]))
+        }
     }
 
     @MainActor

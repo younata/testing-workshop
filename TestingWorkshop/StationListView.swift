@@ -6,20 +6,24 @@
 import Observation
 import SwiftUI
 
+enum CoordinatorState<T> {
+    case loading
+    case loaded(T)
+    case error
+}
+
 @MainActor
 @Observable
 final class StationListCoordinator {
-    enum State {
-        case loading
-        case loaded([Station])
-        case error
-    }
-
     let stationService: StationService
-    private(set) var state: State = .loading
+    private(set) var state: CoordinatorState<[Station]> = .loading
 
     init(stationService: StationService) {
         self.stationService = stationService
+    }
+
+    func makeView() -> some View {
+        StationListView(coordinator: self)
     }
 
     func start() async {
@@ -38,6 +42,10 @@ final class StationListCoordinator {
             await self.start()
         }
     }
+
+    func detailView(for station: Station) -> some View {
+        StationDetailCoordinator(station: station, stationService: stationService).makeView()
+    }
 }
 
 struct StationListView: View {
@@ -50,19 +58,34 @@ struct StationListView: View {
                 ProgressView()
             case .loaded(let stations):
                 List(stations) { station in
-                    Text(verbatim: station.name)
-                }
-            case .error:
-                VStack(alignment: .center, spacing: 8) {
-                    Text("Unable to load stations")
-                    Button("Retry?") {
-                        coordinator.retry()
+                    NavigationLink {
+                        coordinator.detailView(for: station)
+                    } label: {
+                        Text(verbatim: station.name)
                     }
+
+                }
+                .listStyle(.plain)
+            case .error:
+                ErrorView(title: "Unable to load stations") {
+                    coordinator.retry()
                 }
             }
         }
         .task {
             await coordinator.start()
+        }
+    }
+}
+
+struct ErrorView: View {
+    let title: LocalizedStringKey
+    let onRetry: () -> Void
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 8) {
+            Text(title)
+            Button("Retry?", action: onRetry)
         }
     }
 }
