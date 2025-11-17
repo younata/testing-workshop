@@ -2,8 +2,6 @@
 //  TestingWorkshopApp.swift
 //  TestingWorkshop
 //
-//  Created by Rachel Brindle on 11/2/25.
-//
 
 import SwiftUI
 
@@ -11,7 +9,7 @@ import SwiftUI
 struct TestingWorkshopApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            StationListView(coordinator: StationListCoordinator(stationService: DefaultStationService()))
         }
     }
 }
