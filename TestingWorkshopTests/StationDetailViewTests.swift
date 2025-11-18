@@ -28,7 +28,9 @@ struct StationDetailViewTests {
             ).makeView().inspect()
 
             // This would throw if the spinner isn't found.
-            _ = try subject.find(ViewType.ProgressView.self)
+            #expect(throws: Never.self) {
+                _ = try subject.find(ViewType.ProgressView.self)
+            }
         }
 
         @Test func `requests the departures for the station`() async throws {
@@ -66,25 +68,27 @@ struct StationDetailViewTests {
 
             try await subject.zStack().callTask()
 
-            let cell1 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 1 })
-            _ = try cell1.find(text: "Line: Red")
-            _ = try cell1.find(text: "Platform: 1")
-            // Checking the date isn't supported in view inspector, as far as I can tell?
+            #expect(throws: Never.self) {
+                let cell1 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 1 })
+                _ = try cell1.find(text: "Line: Red")
+                _ = try cell1.find(text: "Platform: 1")
+                // Checking the date isn't supported in view inspector, as far as I can tell?
 
-            let cell2 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 2 })
-            _ = try cell2.find(text: "Line: Red")
-            _ = try cell2.find(text: "Platform: 2")
-            // Checking the date isn't supported in view inspector, as far as I can tell?
+                let cell2 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 2 })
+                _ = try cell2.find(text: "Line: Red")
+                _ = try cell2.find(text: "Platform: 2")
+                // Checking the date isn't supported in view inspector, as far as I can tell?
 
-            let cell3 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 3 })
-            _ = try cell3.find(text: "Line: Yellow")
-            _ = try cell3.find(text: "Platform: 1")
-            // Checking the date isn't supported in view inspector, as far as I can tell?
+                let cell3 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 3 })
+                _ = try cell3.find(text: "Line: Yellow")
+                _ = try cell3.find(text: "Platform: 1")
+                // Checking the date isn't supported in view inspector, as far as I can tell?
 
-            let cell4 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 4 })
-            _ = try cell4.find(text: "Line: Yellow")
-            _ = try cell4.find(text: "Platform: 2")
-            // Checking the date isn't supported in view inspector, as far as I can tell?
+                let cell4 = try subject.find(DepartureCell.self, where: { try $0.actualView().departure.id == 4 })
+                _ = try cell4.find(text: "Line: Yellow")
+                _ = try cell4.find(text: "Platform: 2")
+                // Checking the date isn't supported in view inspector, as far as I can tell?
+            }
         }
     }
 
@@ -109,8 +113,10 @@ struct StationDetailViewTests {
 
             try await subject.zStack().callTask()
 
-            _ = try subject.find(text: "Unable to load departures")
-            _ = try subject.find(button: "Retry?")
+            #expect(throws: Never.self) {
+                _ = try subject.find(text: "Unable to load departures")
+                _ = try subject.find(button: "Retry?")
+            }
         }
 
         @Test func `tapping retry attempts to fetch the stations again`() async throws {
@@ -150,7 +156,9 @@ struct StationDetailViewTests {
 
             try subject.find(button: "Retry?").tap()
 
-            _ = try subject.find(ViewType.ProgressView.self)
+            #expect(throws: Never.self) {
+                _ = try subject.find(ViewType.ProgressView.self)
+            }
         }
     }
 }

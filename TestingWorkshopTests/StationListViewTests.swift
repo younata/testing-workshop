@@ -18,7 +18,9 @@ struct StationListViewTests {
             let inspectedView = try subject.inspect()
 
             // This would throw if the spinner isn't found.
-            _ = try inspectedView.find(ViewType.ProgressView.self)
+            #expect(throws: Never.self) {
+                _ = try inspectedView.find(ViewType.ProgressView.self)
+            }
         }
 
         @Test func `requests list of stations`() async throws {
@@ -54,8 +56,10 @@ struct StationListViewTests {
             try await inspectedView.zStack().callTask()
 
             // These would throw if the text isn't found.
-            _ = try inspectedView.find(text: "Station 1")
-            _ = try inspectedView.find(text: "Station 2")
+            #expect(throws: Never.self) {
+                _ = try inspectedView.find(text: "Station 1")
+                _ = try inspectedView.find(text: "Station 2")
+            }
         }
 
         @Test func `tapping on a station opens the detail view`() async throws {
@@ -95,8 +99,10 @@ struct StationListViewTests {
             let inspectedView = try subject.inspect()
             try await inspectedView.zStack().callTask()
 
-            _ = try inspectedView.find(text: "Unable to load stations")
-            _ = try inspectedView.find(button: "Retry?")
+            #expect(throws: Never.self) {
+                _ = try inspectedView.find(text: "Unable to load stations")
+                _ = try inspectedView.find(button: "Retry?")
+            }
         }
 
         @Test func `tapping retry attempts to fetch the stations again`() async throws {
@@ -134,7 +140,9 @@ struct StationListViewTests {
 
             try inspectedView.find(button: "Retry?").tap()
 
-            _ = try inspectedView.find(ViewType.ProgressView.self)
+            #expect(throws: Never.self) {
+                _ = try inspectedView.find(ViewType.ProgressView.self)
+            }
         }
     }
 }
