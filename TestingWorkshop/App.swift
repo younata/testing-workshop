@@ -10,7 +10,7 @@ struct TestingWorkshopApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                StationListCoordinator(stationService: DefaultStationService()).makeView()
+                StationDependencies().stationListCoordinator().makeView()
             }
         }
     }

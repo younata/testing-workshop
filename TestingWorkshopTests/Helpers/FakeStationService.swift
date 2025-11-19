@@ -7,9 +7,9 @@ import Fakes
 @testable import TestingWorkshop
 
 struct FakeStationService: StationService {
-    let station_spy = ThrowingPendableSpy<Void, [Station], Swift.Error>()
+    let stations_spy = ThrowingPendableSpy<Void, [Station], Swift.Error>()
     func stations() async throws -> [Station] {
-        try await station_spy()
+        try await stations_spy()
     }
 
     let departures_spy = ThrowingPendableSpy<Station, [Departure], Swift.Error>()

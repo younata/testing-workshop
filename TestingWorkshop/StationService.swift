@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct Station: Equatable, Hashable, Identifiable {
+struct Station: Equatable, Hashable, Identifiable, Codable {
     var id: String { name }
     let name: String
     let platforms: [String]

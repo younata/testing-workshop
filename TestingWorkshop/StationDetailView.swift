@@ -11,6 +11,8 @@ struct Platform: Identifiable, Hashable {
     let name: String
 }
 
+typealias StationDetailCoordinatorFactory = @MainActor (Station) -> StationDetailCoordinator
+
 @MainActor
 @Observable
 final class StationDetailCoordinator {

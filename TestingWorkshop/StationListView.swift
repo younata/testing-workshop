@@ -12,14 +12,18 @@ enum CoordinatorState<T> {
     case error
 }
 
+typealias StationListCoordinatorFactory = @MainActor () -> StationListCoordinator
+
 @MainActor
 @Observable
 final class StationListCoordinator {
-    let stationService: StationService
+    let stationRepository: StationRepository
+    let stationDetailFactory: StationDetailCoordinatorFactory
     private(set) var state: CoordinatorState<[Station]> = .loading
 
-    init(stationService: StationService) {
-        self.stationService = stationService
+    init(stationRepository: StationRepository, stationDetailFactory: @escaping StationDetailCoordinatorFactory) {
+        self.stationRepository = stationRepository
+        self.stationDetailFactory = stationDetailFactory
     }
 
     func makeView() -> some View {
@@ -29,7 +33,7 @@ final class StationListCoordinator {
     func start() async {
         do {
             self.state = .loaded(
-                try await stationService.stations()
+                try await stationRepository.stations()
             )
         } catch {
             self.state = .error
@@ -43,8 +47,16 @@ final class StationListCoordinator {
         }
     }
 
+    func refresh() async {
+        do {
+            state = .loaded(
+                try await stationRepository.refresh()
+            )
+        } catch {}
+    }
+
     func detailView(for station: Station) -> some View {
-        StationDetailCoordinator(station: station, stationService: stationService).makeView()
+        stationDetailFactory(station).makeView()
     }
 }
 
@@ -64,6 +76,9 @@ struct StationListView: View {
                         Text(verbatim: station.name)
                     }
 
+                }
+                .refreshable {
+                    await coordinator.refresh()
                 }
                 .listStyle(.plain)
             case .error:

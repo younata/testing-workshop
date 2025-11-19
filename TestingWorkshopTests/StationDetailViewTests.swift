@@ -94,12 +94,6 @@ struct StationDetailViewTests {
 
     @MainActor
     struct `When loading throws an error` {
-        struct TestError: Error {
-            var localizedDescription: String {
-                "Test Error"
-            }
-        }
-
         let station = Station(name: "My Station", platforms: ["a", "b"])
         let stationService = FakeStationService()
 
